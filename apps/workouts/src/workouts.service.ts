@@ -16,6 +16,6 @@ export class WorkoutsService {
   }
 
   async getAllWorkouts() {
-    return this.workoutRepository.find({});
+    return this.workoutRepository.find({}); //
   }
 }
