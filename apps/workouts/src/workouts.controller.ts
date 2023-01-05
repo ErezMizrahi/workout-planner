@@ -1,12 +1,18 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
+import { CreateWorkoutRequest } from './dto/create-workout.request';
 import { WorkoutsService } from './workouts.service';
 
-@Controller()
+@Controller('workouts')
 export class WorkoutsController {
   constructor(private readonly workoutsService: WorkoutsService) {}
 
+  @Post()
+  createWorkout(@Body() request: CreateWorkoutRequest)  {
+    return this.workoutsService.createWorkout(request);
+  }
+
   @Get()
-  getHello(): string {
-    return this.workoutsService.getHello();
+  getAllWorkouts(){
+    return this.workoutsService.getAllWorkouts();
   }
 }
