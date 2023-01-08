@@ -7,6 +7,7 @@ import { DatabaseModule } from '@app/common';
 import { WorkoutRepository } from './workout.repository';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Workout, workoutSchema } from './schemas/workout.schema';
+import { Exercise, exerciseSchema } from './schemas/exercise.schema';
 
 @Module({
   imports: [
@@ -19,7 +20,7 @@ import { Workout, workoutSchema } from './schemas/workout.schema';
       envFilePath: './apps/workouts/.env'
     }),
     DatabaseModule,
-    MongooseModule. forFeature([ { name: Workout.name, schema: workoutSchema } ])
+    MongooseModule. forFeature([ { name: Workout.name, schema: workoutSchema }, {name: Exercise.name, schema: exerciseSchema} ])
   ],
   controllers: [WorkoutsController],
   providers: [WorkoutsService, WorkoutRepository],

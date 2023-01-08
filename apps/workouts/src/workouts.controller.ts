@@ -1,5 +1,6 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { CreateWorkoutRequest } from './dto/create-workout.request';
+import { UpdateWorkoutRequest } from './dto/update-workout.request';
 import { WorkoutsService } from './workouts.service';
 
 @Controller('workouts')
@@ -14,5 +15,15 @@ export class WorkoutsController {
   @Get()
   getAllWorkouts(){
     return this.workoutsService.getAllWorkouts();
+  }
+
+  @Patch(':workoutId')
+  findWorkoutAndUpdate(@Param('workoutId') workoutId: string, @Body() request: UpdateWorkoutRequest) {
+    return this.workoutsService.updateWorkout(workoutId, request);
+  }
+
+  @Delete(':workoutId')
+  findAndDelete(@Param('workoutId') workoutId: string) {
+    return this.workoutsService.deleteWorkout(workoutId);
   }
 }
