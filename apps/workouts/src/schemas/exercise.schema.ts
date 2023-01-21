@@ -13,10 +13,10 @@ export class Exercise extends AbstractDocument {
     name: string;
 
     @Prop()
-    weight: string;
+    weight: number;
 
     @Prop()
-    reps: number;
+    reps: string;
 
     @Prop()
     sets: number;

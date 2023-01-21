@@ -3,11 +3,12 @@ import { ConfigModule } from '@nestjs/config';
 import { WorkoutsController } from './workouts.controller';
 import { WorkoutsService } from './workouts.service';
 import * as Joi from 'joi';
-import { DatabaseModule } from '@app/common';
+import { DatabaseModule, RmqModule } from '@app/common';
 import { WorkoutRepository } from './workout.repository';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Workout, workoutSchema } from './schemas/workout.schema';
 import { Exercise, exerciseSchema } from './schemas/exercise.schema';
+import { COMMUNICATION_SERVICE } from './constants/services';
 
 @Module({
   imports: [
@@ -20,7 +21,10 @@ import { Exercise, exerciseSchema } from './schemas/exercise.schema';
       envFilePath: './apps/workouts/.env'
     }),
     DatabaseModule,
-    MongooseModule. forFeature([ { name: Workout.name, schema: workoutSchema }, {name: Exercise.name, schema: exerciseSchema} ])
+    MongooseModule. forFeature([ { name: Workout.name, schema: workoutSchema }, {name: Exercise.name, schema: exerciseSchema} ]),
+    RmqModule.register( {
+      name: COMMUNICATION_SERVICE
+    })
   ],
   controllers: [WorkoutsController],
   providers: [WorkoutsService, WorkoutRepository],

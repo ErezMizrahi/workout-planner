@@ -6,5 +6,5 @@ import { v4 } from 'uuid';
 export class CreateWorkoutRequest {
     workoutId: string;
     @IsString() @IsNotEmpty() name: string;
-    exercises: Exercise[];
+    @IsNotEmpty() exercises: Exercise[];
 }
