@@ -13,13 +13,14 @@ export class WorkoutsService {
   constructor(private readonly workoutRepository: WorkoutRepository,
      @Inject(COMMUNICATION_SERVICE) private communicationClient: ClientProxy) {}
 
-  async createWorkout(request: CreateWorkoutRequest) {
+  async createWorkout(request: CreateWorkoutRequest, authentication: string) {
     const session = await this.workoutRepository.startTransaction();
     try {
       const workout = this.workoutRepository.create(request, { session });
       await lastValueFrom(
         this.communicationClient.emit('workout_created', {
-          request
+          request,
+          Authentication: authentication
         })
       );
       await session.commitTransaction();

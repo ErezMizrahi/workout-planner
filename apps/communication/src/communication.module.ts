@@ -1,4 +1,4 @@
-import { RmqModule } from '@app/common';
+import { AuthModule, RmqModule } from '@app/common';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
@@ -12,7 +12,7 @@ import { CommunicationService } from './communication.service';
       RABBIT_MQ_URI: Joi.string().required(),
       RABBIT_MQ_COMMUNICATION_QUEUE: Joi.string().required()
     })
-  }) ,RmqModule],
+  }) ,RmqModule, AuthModule],
   controllers: [CommunicationController],
   providers: [CommunicationService],
 })

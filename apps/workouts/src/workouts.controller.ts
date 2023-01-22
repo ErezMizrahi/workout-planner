@@ -1,4 +1,5 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { JWTAuthGuard } from '@app/common';
+import { Body, Controller, Delete, Get, Logger, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { CreateWorkoutRequest } from './dto/create-workout.request';
 import { UpdateWorkoutRequest } from './dto/update-workout.request';
 import { WorkoutsService } from './workouts.service';
@@ -6,10 +7,14 @@ import { WorkoutsService } from './workouts.service';
 @Controller('workouts')
 export class WorkoutsController {
   constructor(private readonly workoutsService: WorkoutsService) {}
+  
+  logger = new Logger(WorkoutsController.name);
 
+  @UseGuards(JWTAuthGuard)
   @Post()
-  createWorkout(@Body() request: CreateWorkoutRequest)  {
-    return this.workoutsService.createWorkout(request);
+  createWorkout(@Body() request: CreateWorkoutRequest, @Req() req: any)  {
+    this.logger.debug("user ", req.user);
+    return this.workoutsService.createWorkout(request, req.cookies?.Authentication);
   }
 
   @Get()
