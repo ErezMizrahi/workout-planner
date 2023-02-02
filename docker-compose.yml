@@ -58,7 +58,7 @@ services:
       - .:/usr/src/app
       - /usr/src/app/node_modules
     ports:
-      - '3001:3001'
+      - '3002:3002'
 
   rabbitmq:
     image: rabbitmq

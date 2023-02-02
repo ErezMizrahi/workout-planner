@@ -6,6 +6,7 @@ import { v4 } from 'uuid';
 import { COMMUNICATION_SERVICE } from './constants/services';
 import { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
+import { User } from 'apps/auth/src/users/schemas/user.schema';
 
 @Injectable()
 export class WorkoutsService {
@@ -13,9 +14,10 @@ export class WorkoutsService {
   constructor(private readonly workoutRepository: WorkoutRepository,
      @Inject(COMMUNICATION_SERVICE) private communicationClient: ClientProxy) {}
 
-  async createWorkout(request: CreateWorkoutRequest, authentication: string) {
+  async createWorkout(request: CreateWorkoutRequest, authentication: string, user: User) {
     const session = await this.workoutRepository.startTransaction();
     try {
+      request.user = user;
       const workout = this.workoutRepository.create(request, { session });
       await lastValueFrom(
         this.communicationClient.emit('workout_created', {
@@ -33,9 +35,10 @@ export class WorkoutsService {
    
   }
 
-  async getAllWorkouts() {
+  async getAllWorkouts(user: string) {
     try {
-      return this.workoutRepository.find({}); 
+      console.log(`user id : ${user}`);
+      return await this.workoutRepository.find({user}); 
 
     } catch (err) {
       throw err;

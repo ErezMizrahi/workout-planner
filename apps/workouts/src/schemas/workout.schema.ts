@@ -3,6 +3,8 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import * as mongoose from "mongoose";
 import { Exercise } from "./exercise.schema";
 import { v4 as uuidv4 } from 'uuid';
+import { User } from "apps/auth/src/users/schemas/user.schema";
+import { Type } from "class-transformer";
 
 @Schema({ versionKey: false })
 export class Workout extends AbstractDocument {
@@ -20,6 +22,10 @@ export class Workout extends AbstractDocument {
 
     @Prop()
     exercises: Exercise[];
+
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
+    @Type(() => User)
+    user: User;
 
 }
 
